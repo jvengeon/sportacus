@@ -1,3 +1,7 @@
+sportacus_core:
+    resource: "@SportacusCoreBundle/Resources/config/routing.yml"
+    prefix:   /
+
 app:
     resource: @AppBundle/Controller/
     type:     annotation
