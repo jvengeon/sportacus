@@ -5,3 +5,18 @@ sportacus_core:
 app:
     resource: @AppBundle/Controller/
     type:     annotation
+
+
+hwi_oauth_redirect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
+    prefix:   /demo/secured/connect
+ 
+hwi_oauth_login:
+    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
+    prefix:   /login
+ 
+google_login:
+    pattern: /demo/secured/login_google
+ 
+logout:
+    path:   /logout

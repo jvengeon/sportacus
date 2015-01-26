@@ -71,3 +71,16 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+    
+hwi_oauth:
+    firewall_name: secured_area
+    resource_owners:
+        facebook:
+            type:          google
+            client_id:           %client_id%
+            client_secret:       %client_secret% 
+            scope:               "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"           
+
+services:
+    hwi_oauth.user.provider.entity:
+        class: HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUserProvider    
