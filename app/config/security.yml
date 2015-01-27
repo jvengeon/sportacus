@@ -48,7 +48,7 @@ security:
 
             logout:
                 path:           /demo/secured/logout
-                target:         /demo/secured/connect #where to go after logout
+                target:         /demo/secured/login #where to go after logout
             
             # Turn on anonymous for testings need.
             anonymous: ~
