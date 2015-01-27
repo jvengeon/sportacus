@@ -16,8 +16,9 @@ security:
             memory:
                 users:
                     user:  { password: userpass, roles: [ 'ROLE_USER' ] }
-                    admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
-
+                    admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }                           
+        hwi:                               
+            id: hwi_oauth.user.provider    
     # the main part of the security, where you can set up firewalls
     # for specific sections of your app
     firewalls:
@@ -29,13 +30,14 @@ security:
         demo_login:
             pattern:  ^/demo/secured/login$
             security: false
-
+        
         # secures part of the application
         secured_area:
             pattern:    ^/demo/secured/
             oauth:
                 resource_owners:
                     google: /demo/secured/login_google
+                check_path: _demo_security_check
                 login_path: /demo/secured/login
                 failure_path: /demo/secured/login
                 oauth_user_provider:
@@ -48,4 +50,4 @@ security:
     # of your application based on roles, ip, host or methods
     # http://symfony.com/doc/current/cookbook/security/access_control.html
     access_control:
-        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }

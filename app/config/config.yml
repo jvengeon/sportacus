@@ -75,7 +75,7 @@ swiftmailer:
 hwi_oauth:
     firewall_name: secured_area
     resource_owners:
-        facebook:
+        google:
             type:          google
             client_id:           %client_id%
             client_secret:       %client_secret% 
