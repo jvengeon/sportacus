@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new AppBundle\AppBundle(),
             new Sportacus\CoreBundle\SportacusCoreBundle(),
             new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
+        	new FOS\UserBundle\FOSUserBundle(),
         );
         
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
