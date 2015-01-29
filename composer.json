@@ -26,6 +26,7 @@
 		"symfony/symfony" : "2.6.*",
 		"doctrine/orm" : "~2.2,>=2.2.3",
 		"doctrine/doctrine-bundle" : "~1.2",
+		"doctrine/doctrine-fixtures-bundle": "dev-master",
 		"twig/extensions" : "~1.0",
 		"symfony/assetic-bundle" : "~2.3",
 		"symfony/swiftmailer-bundle" : "~2.3",
@@ -37,7 +38,8 @@
 		"friendsofsymfony/user-bundle" : "~2.0@dev",
 		"braincrafted/bootstrap-bundle" : "~2.0",
 		"twbs/bootstrap" : "3.*",
-		"jquery/jquery" : "1.10.*"
+		"jquery/jquery" : "1.10.*",
+		"symfony/var-dumper" : "3.0.*@dev"
 	},
 	"require-dev" : {
 		"sensio/generator-bundle" : "~2.3"
