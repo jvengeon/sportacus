@@ -4,7 +4,7 @@ namespace Sportacus\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Sportacus\CoreBundle\Repository\MeasureRepository")
  * @ORM\Table(name="measure")
  */
 class Measure
