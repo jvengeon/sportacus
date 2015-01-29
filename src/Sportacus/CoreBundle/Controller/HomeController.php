@@ -18,12 +18,12 @@ class HomeController extends Controller
         
 
         
-        $this->groupMeasuresByDate($measures);
+        $this->aggregateMeasuresByDate($measures);
 
         return $this->render('SportacusCoreBundle:Home:index.html.twig', array('measures' => $measures));
     }
     
-    private function groupMeasuresByDate(array $measures)
+    private function aggregateMeasuresByDate(array $measures)
     {
         /* On doit recreer un tableau
          * [
