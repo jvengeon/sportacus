@@ -47,29 +47,6 @@ class User extends BaseUser {
     }
 
     /**
-     * Set googleID
-     *
-     * @param string $googleID
-     * @return User
-     */
-    public function setGoogleID($googleID)
-    {
-        $this->googleId = $googleID;
-
-        return $this;
-    }
-
-    /**
-     * Get googleID
-     *
-     * @return string 
-     */
-    public function getGoogleID()
-    {
-        return $this->googleId;
-    }
-
-    /**
      * Set googleAccessToken
      *
      * @param string $googleAccessToken
@@ -90,5 +67,28 @@ class User extends BaseUser {
     public function getGoogleAccessToken()
     {
         return $this->googleAccessToken;
+    }
+
+    /**
+     * Set googleId
+     *
+     * @param string $googleId
+     * @return User
+     */
+    public function setGoogleId($googleId)
+    {
+        $this->googleId = $googleId;
+
+        return $this;
+    }
+
+    /**
+     * Get googleId
+     *
+     * @return string 
+     */
+    public function getGoogleId()
+    {
+        return $this->googleId;
     }
 }
