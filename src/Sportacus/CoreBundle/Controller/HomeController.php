@@ -8,6 +8,36 @@ class HomeController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('SportacusCoreBundle:Home:index.html.twig', array());
+        $measures = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('SportacusCoreBundle:Measure')
+            ->findAllGroupByDate()
+        ;
+        
+        
+
+        
+        $this->groupMeasuresByDate($measures);
+
+        return $this->render('SportacusCoreBundle:Home:index.html.twig', array('measures' => $measures));
+    }
+    
+    private function groupMeasuresByDate(array $measures)
+    {
+        /* On doit recreer un tableau
+         * [
+         *  '2014-01-01' => [Measure1, Measure2],
+         *  '2014-01-02' => [Measure3],
+         *  '2014-01-03' => [Measure4, Measure5],
+         * ]
+         * */
+        
+        foreach($measures as $measure)
+        {
+            
+        }
+        
+        
     }
 }
