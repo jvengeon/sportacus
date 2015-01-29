@@ -3,6 +3,8 @@
 namespace Sportacus\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sportacus\CoreBundle\Entity\Measure;
+use Sportacus\CoreBundle\Form\Type\MeasureType;
 
 class HomeController extends Controller
 {
@@ -15,29 +17,39 @@ class HomeController extends Controller
             ->findAllGroupByDate()
         ;
         
-        
+        $aggregatedMeasures = $this->aggregateMeasuresByDate($measures);
 
+        $typeMeasures = $this
+        	->getDoctrine()
+        	->getManager()
+        	->getRepository('SportacusCoreBundle:TypeMeasure')
+        	->findAll()
+        ;
         
-        $this->aggregateMeasuresByDate($measures);
-
-        return $this->render('SportacusCoreBundle:Home:index.html.twig', array('measures' => $measures));
+        $form = $this->createForm(new MeasureType(), new Measure());
+        
+        return $this->render('SportacusCoreBundle:Home:index.html.twig', 
+    		array(
+				'measures' => $aggregatedMeasures,	
+				'typeMeasures' => $typeMeasures,
+				'form' => $form->createView(),
+            )
+        );
     }
     
     private function aggregateMeasuresByDate(array $measures)
     {
-        /* On doit recreer un tableau
-         * [
-         *  '2014-01-01' => [Measure1, Measure2],
-         *  '2014-01-02' => [Measure3],
-         *  '2014-01-03' => [Measure4, Measure5],
-         * ]
-         * */
-        
+    	$aggregatedMeasures = [];
+    	
         foreach($measures as $measure)
         {
-            
+        	if($measure instanceof Measure)
+        	{
+        		$aggregatedMeasures[$measure->getDate()->format('d-m-Y')][$measure->getTypeMeasure()->getName()] = $measure;
+        	}
         }
         
+        return $aggregatedMeasures;
         
     }
 }

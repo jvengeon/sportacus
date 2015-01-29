@@ -2,13 +2,14 @@
 namespace Sportacus\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Sportacus\CoreBundle\Repository\MeasureRepository")
  * @ORM\Table(name="measure")
  */
 class Measure
-{
+{ 
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -18,18 +19,21 @@ class Measure
     
     /**
      * @ORM\Column(type="decimal", scale=1)
+     * @Assert\NotBlank()
      */
     protected $value;
     
     /**
      * 
      * @ORM\Column(type="date")
+     * @Assert\DateTime()
      */
     protected $date;
 
     /**
-     * @ORM\ManyToOne(targetEntity="MeasureType", inversedBy="mesures")
+     * @ORM\ManyToOne(targetEntity="TypeMeasure", inversedBy="mesures")
      * @ORM\JoinColumn(name="typeMeasure_id", referencedColumnName="id")
+     * @Assert\Type(type="Sportacus\CoreBundle\Entity\TypeMeasure")
      */
     protected $typeMeasure;
     
@@ -92,10 +96,10 @@ class Measure
     /**
      * Set typeMeasure
      *
-     * @param \Sportacus\CoreBundle\Entity\MeasureType $typeMeasure
+     * @param \Sportacus\CoreBundle\Entity\TypeMeasure $typeMeasure
      * @return Measure
      */
-    public function setTypeMeasure(\Sportacus\CoreBundle\Entity\MeasureType $typeMeasure = null)
+    public function setTypeMeasure(\Sportacus\CoreBundle\Entity\TypeMeasure $typeMeasure = null)
     {
         $this->typeMeasure = $typeMeasure;
 
@@ -105,7 +109,7 @@ class Measure
     /**
      * Get typeMeasure
      *
-     * @return \Sportacus\CoreBundle\Entity\MeasureType 
+     * @return \Sportacus\CoreBundle\Entity\TypeMeasure 
      */
     public function getTypeMeasure()
     {

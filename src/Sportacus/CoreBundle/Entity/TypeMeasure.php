@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="measureType")
+ * @ORM\Table(name="typeMeasure")
  */
-class MeasureType
+class TypeMeasure
 {
     /**
     * @ORM\Id
@@ -52,7 +52,7 @@ class MeasureType
      * Set name
      *
      * @param string $name
-     * @return MeasureType
+     * @return TypeMeasure
      */
     public function setName($name)
     {
@@ -75,7 +75,7 @@ class MeasureType
      * Set unit
      *
      * @param string $unit
-     * @return MeasureType
+     * @return TypeMeasure
      */
     public function setUnit($unit)
     {
@@ -98,7 +98,7 @@ class MeasureType
      * Add mesures
      *
      * @param \Sportacus\CoreBundle\Entity\Measure $mesures
-     * @return MeasureType
+     * @return TypeMeasure
      */
     public function addMesure(\Sportacus\CoreBundle\Entity\Measure $mesures)
     {

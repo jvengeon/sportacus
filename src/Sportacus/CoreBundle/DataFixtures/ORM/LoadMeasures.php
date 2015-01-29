@@ -5,17 +5,17 @@ namespace Sportacus\CoreBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sportacus\CoreBundle\Entity\Measure;
-use Sportacus\CoreBundle\Entity\MeasureType;
+use Sportacus\CoreBundle\Entity\TypeMeasure;
 
 class LoadMeasuresData implements FixtureInterface
 {
     public function load(ObjectManager $manager)
     {
         $measures = [
-            ['2014-01-01', '88.7'],
-            ['2014-01-11', '88.5'],
-            ['2014-01-21', '88.2'],
-            ['2014-01-31', '88.1'],
+            ['2014-01-01', '88.7', '20.6', '40.1', '54.6', '101', '94'],
+            ['2014-01-11', '88.5', '20.5', '40.3', '54.6', '100', '94'],
+            ['2014-01-21', '88.2', '20.4', '40.5', '54.6', '100', '94'],
+            ['2014-01-31', '88.1', '20.3', '40.7', '54.6', '99', '93'],
         ];
         
         $typeMeasures = [
@@ -27,11 +27,10 @@ class LoadMeasuresData implements FixtureInterface
             ['tour de taille', 'cm'],
         ];
         
-        $firstTypeMeasure = null;
         
         foreach($typeMeasures as $index => $typeMeasureValues)
         {
-            $typeMeasure = new MeasureType();
+            $typeMeasure = new TypeMeasure();
             $typeMeasure
                 ->setName($typeMeasureValues[0])
                 ->setUnit($typeMeasureValues[1])
@@ -40,26 +39,23 @@ class LoadMeasuresData implements FixtureInterface
             $manager->persist($typeMeasure);
             $manager->flush();
             
-            if($index === 0)
+            foreach($measures as $measureValues)
             {
-                $firstTypeMeasure = $typeMeasure;
+                $measure = new Measure();
+                $measure
+                ->setDate(new \DateTime($measureValues[0]))
+                ->setValue($measureValues[$index + 1])
+                ->setTypeMeasure($typeMeasure)
+                ;
+            
+                $manager->persist($measure);
+                $manager->flush();
             }
         }
         
         
         
-        foreach($measures as $measureValues)
-        {
-            $measure = new Measure();
-            $measure
-                ->setDate(new \DateTime($measureValues[0]))
-                ->setValue($measureValues[1])
-                ->setTypeMeasure($firstTypeMeasure)
-            ;
-            
-            $manager->persist($measure);
-            $manager->flush();
-        }
+        
         
         
     }

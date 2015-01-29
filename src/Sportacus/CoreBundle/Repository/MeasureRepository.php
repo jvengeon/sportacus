@@ -10,6 +10,8 @@ class MeasureRepository extends EntityRepository
     public function findAllGroupByDate()
     {
         return $this->createQueryBuilder('m')
+            ->orderBy('m.date', 'ASC')
+            ->addOrderBy('m.typeMeasure')
             ->groupBy('m.date, m.typeMeasure')
             ->getQuery()
             ->execute()
