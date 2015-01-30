@@ -9,7 +9,29 @@ class MeasureType extends AbstractType
 {
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
-		$builder->add('date');
+	    $paramsDate = [
+	        'input'       => 'datetime',
+	        'format'      => 'dd-MM-yyyy',
+            'label'       => 'Date',
+	        'widget'      => 'single_text',
+            'empty_value' => '',
+            'required'    => true,
+        ];
+	    
+	    $paramsTypeMeasure = [
+		      'class' => 'SportacusCoreBundle:TypeMeasure',
+		      'property' => 'name',
+		      'label' => 'Type de mesure'
+		  ];
+	    
+		$builder
+		  ->add('date', 'date', $paramsDate)
+		  ->add('typeMeasure', 'entity', $paramsTypeMeasure)
+		  ->add('value', 'number')
+		  ->add('submit', 'submit', array(
+		      'label' => 'Valider')
+		  );
+		;
 	}
 	
 	public function getName()
