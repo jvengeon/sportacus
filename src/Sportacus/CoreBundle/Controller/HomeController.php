@@ -5,11 +5,13 @@ namespace Sportacus\CoreBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sportacus\CoreBundle\Entity\Measure;
 use Sportacus\CoreBundle\Form\Type\MeasureType;
+use Symfony\Component\HttpFoundation\Request;
 
 class HomeController extends Controller
 {
-    public function indexAction()
+    public function indexAction(Request $request)
     {
+        $measure = new Measure();
         $measures = $this
             ->getDoctrine()
             ->getManager()
@@ -26,7 +28,17 @@ class HomeController extends Controller
         	->findAll()
         ;
         
-        $form = $this->createForm(new MeasureType(), new Measure());
+        $form = $this->createForm(new MeasureType(), $measure, ['method' => 'POST']);
+        $form->handleRequest($request);
+       
+        if($form->isValid())
+        {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($measure);
+            $em->flush();
+            
+            return $this->redirect($this->generateUrl('_homepage'));
+        }
         
         return $this->render('SportacusCoreBundle:Home:index.html.twig', 
     		array(
@@ -36,6 +48,7 @@ class HomeController extends Controller
             )
         );
     }
+    
     
     private function aggregateMeasuresByDate(array $measures)
     {
