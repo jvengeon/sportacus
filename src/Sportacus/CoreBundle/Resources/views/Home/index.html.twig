@@ -4,3 +4,13 @@
 	{% include "SportacusCoreBundle:Home:measures.html.twig" %}
 	{{ form(form) }}
 {% endblock %}
+
+{% block js_footer %}
+    {% javascripts 
+        '@SportacusCoreBundle/Resources/public/js/jquery-ui.min.js'
+        '@SportacusCoreBundle/Resources/public/js/datepicker-fr.js'
+        '@SportacusCoreBundle/Resources/public/js/measure.js'
+    %} 
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
