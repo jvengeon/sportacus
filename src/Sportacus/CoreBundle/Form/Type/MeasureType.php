@@ -4,6 +4,7 @@ namespace Sportacus\CoreBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Sportacus\CoreBundle\Entity\TypeMeasure;
 
 class MeasureType extends AbstractType
 {
@@ -11,26 +12,29 @@ class MeasureType extends AbstractType
 	{
 	    $paramsDate = [
 	        'input'       => 'datetime',
-	        'format'      => 'dd-MM-yyyy',
-            'label'       => 'Date',
+	        'attr'        => array('class' => 'datepicker'),
+	        'format'      => 'dd/MM/yyyy',
+            'label'       => false,
 	        'widget'      => 'single_text',
-            'empty_value' => '',
+            'data'        => new \DateTime(),
             'required'    => true,
         ];
 	    
 	    $paramsTypeMeasure = [
-		      'class' => 'SportacusCoreBundle:TypeMeasure',
+		      'class'    => 'SportacusCoreBundle:TypeMeasure',
 		      'property' => 'name',
-		      'label' => 'Type de mesure'
-		  ];
+	          'attr'     => array('class' => 'typeMeasure'),
+		      'label'    => false
+	    ];
+	    
+	    if(null !== $options['typeMeasure'] && $options['typeMeasure'] instanceof TypeMeasure){
+	        $paramsTypeMeasure['data'] = $options['typeMeasure'];
+	    }
 	    
 		$builder
 		  ->add('date', 'date', $paramsDate)
 		  ->add('typeMeasure', 'entity', $paramsTypeMeasure)
-		  ->add('value', 'number')
-		  ->add('submit', 'submit', array(
-		      'label' => 'Valider')
-		  );
+		  ->add('value', 'number', ['label' => false])
 		;
 	}
 	
@@ -43,6 +47,7 @@ class MeasureType extends AbstractType
 	{
 	    $resolver->setDefaults(array(
 	        'data_class' => 'Sportacus\CoreBundle\Entity\Measure',
+	        'typeMeasure' => null
 	    ));
 	}
 }
