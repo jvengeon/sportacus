@@ -2,6 +2,15 @@ services:
       measure_collection_type:
         class:        Sportacus\CoreBundle\Form\Type\MeasureCollectionType
         arguments:    [doctrine]
+      measures.aggregator:
+        class:        Sportacus\CoreBundle\Measures\Aggregator
+        arguments:    [@doctrine.orm.entity_manager]
+      measures.comparator.factory:
+        class:        Sportacus\CoreBundle\Measures\Comparator\Factory
+      measures.progression:
+        class:        Sportacus\CoreBundle\Measures\Progression
+        arguments:    [@doctrine.orm.entity_manager, @measures.comparator.factory]
+      
 #    sportacus_core.example:
 #        class: Sportacus\CoreBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]
