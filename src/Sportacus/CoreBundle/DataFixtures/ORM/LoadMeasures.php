@@ -9,22 +9,28 @@ use Sportacus\CoreBundle\Entity\TypeMeasure;
 
 class LoadMeasuresData implements FixtureInterface
 {
+    const 
+        PROGRESS_IF_VALUE_IS_GREATER = 1,
+        PROGRESS_IF_VALUE_IS_LOWER = 0;
+    
     public function load(ObjectManager $manager)
     {
         $measures = [
-            ['2014-01-01', '88.7', '20.6', '40.1', '54.6', '101', '94'],
-            ['2014-01-11', '88.5', '20.5', '40.3', '54.6', '100', '94'],
-            ['2014-01-21', '88.2', '20.4', '40.5', '54.6', '100', '94'],
-            ['2014-01-31', '88.1', '20.3', '40.7', '54.6', '99', '93'],
+            ['2015-01-01', '88.7', '20.6', '40.1', '54.6', '101', '94', '102', '90'],
+            ['2015-01-11', '88.5', '20.5', '40.3', '54.6', '100', '94', '102', '91'],
+            ['2015-01-21', '88.2', '20.4', '40.5', '54.6', '100', '94', '103', '92'],
+            ['2015-01-31', '88.1', '20.3', '40.7', '54.6', '99', '93', '103', '93'],
         ];
         
         $typeMeasures = [
-            ['poids', 'kg'],
-            ['masse graisseuse', '%'],
-            ['masse musculaire', '%'],
-            ['masse eau', '%'],
-            ['tour de ventre', 'cm'],
-            ['tour de taille', 'cm'],
+            ['poids', 'kg', self::PROGRESS_IF_VALUE_IS_LOWER],
+            ['masse graisseuse', '%', self::PROGRESS_IF_VALUE_IS_LOWER],
+            ['masse musculaire', '%', self::PROGRESS_IF_VALUE_IS_GREATER],
+            ['masse eau', '%', self::PROGRESS_IF_VALUE_IS_LOWER],
+            ['tour de ventre', 'cm', self::PROGRESS_IF_VALUE_IS_LOWER],
+            ['tour de taille', 'cm', self::PROGRESS_IF_VALUE_IS_LOWER],
+            ['tour de pecs', 'cm', self::PROGRESS_IF_VALUE_IS_GREATER],
+            ['tour de bras', 'cm', self::PROGRESS_IF_VALUE_IS_GREATER],
         ];
         
         
@@ -34,6 +40,7 @@ class LoadMeasuresData implements FixtureInterface
             $typeMeasure
                 ->setName($typeMeasureValues[0])
                 ->setUnit($typeMeasureValues[1])
+                ->setTypeProgression($typeMeasureValues[2])
             ;
             
             $manager->persist($typeMeasure);
