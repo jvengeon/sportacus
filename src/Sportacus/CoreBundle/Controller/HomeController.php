@@ -35,8 +35,13 @@ class HomeController extends Controller
         $form = $this->createForm(new MeasureCollectionType($this->getDoctrine()), null, ['attr' => ['id' => 'formMeasures'],  'method' => 'POST']);
         $form->handleRequest($request);
 
+        $session = $request->getSession();
+        $flashBag = $session->getFlashBag();
+        
         if($form->isValid())
         {
+            
+            
             $measures = $form->getData();
             
             
@@ -63,8 +68,14 @@ class HomeController extends Controller
             
             $em->flush();
             
+            $flashBag->add('success', 'Vos mesures ont bien été enregistrées');
+                        
             return $this->redirect($this->generateUrl('_homepage'));
         }
+        elseif($form->isSubmitted()) {
+            $flashBag->add('error', 'Il y a une ou plusieurs erreurs dans votre formulaire.');
+        }
+        
         
         return $this->render('SportacusCoreBundle:Home:index.html.twig', 
     		array(
