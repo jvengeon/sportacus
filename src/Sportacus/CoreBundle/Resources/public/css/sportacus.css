@@ -1,3 +1,57 @@
 #formMeasures {
     width : 50%;
 }
+
+#flashes {
+    display: block;
+    min-height: 30px;
+}
+#flashes .flash {
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 1.3em;
+    font-style: italic;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+}
+#flashes .success {
+    background: #6fe591;
+    color: #0d481e;
+}
+#flashes .error {
+    background: brown;
+    color: #fff;
+}
+
+
+/* progression : regress */
+.ui-icon.progression-0{
+    background-image: url("../images/ui-icons_a83300_256x240.png");
+    background-color: transparent;
+    border: none;
+    float:left;
+}
+
+/* progression : progress */
+.ui-icon.progression-1{
+    background-image: url("../images/ui-icons_4b8e0b_256x240.png");
+    background-color: transparent;
+    border: none;
+    float:left;
+}
+
+/* progression : same result */
+.ui-icon.progression-2{
+    background-image: url("../images/ui-icons_ffffff_256x240.png");
+    background-color: transparent;
+    border: none;
+    float:left;
+}
+
+.measure-value {
+    float:left;
+}
+
+/* override bootstrap */
+form .has-error ul.help-block {
+    color: red;
+}
