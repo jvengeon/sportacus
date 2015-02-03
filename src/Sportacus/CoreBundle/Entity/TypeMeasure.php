@@ -27,6 +27,14 @@ class TypeMeasure
      * @ORM\Column(type="string", length=5)
      */
     protected $unit;
+    
+    /**
+     * @ORM\Column(type="smallint")
+     * Ce champ sert à définir la progression entre 2 mesures du même type
+     * Si 1 alors la progression est positive si la mesure la plus récente est supérieur à la précedente
+     * Si 0 alors la progression est positive si la mesure la plus récente est inférieur à la précédente
+     */
+    protected $typeProgression;
 
     /**
      * @ORM\OneToMany(targetEntity="Measure", mappedBy="mesureType")
@@ -47,6 +55,7 @@ class TypeMeasure
     {
         return $this->id;
     }
+    
 
     /**
      * Set name
@@ -125,5 +134,29 @@ class TypeMeasure
     public function getMesures()
     {
         return $this->mesures;
+    }
+
+
+    /**
+     * Set typeProgression
+     *
+     * @param integer $typeProgression
+     * @return TypeMeasure
+     */
+    public function setTypeProgression($typeProgression)
+    {
+        $this->typeProgression = $typeProgression;
+
+        return $this;
+    }
+
+    /**
+     * Get typeProgression
+     *
+     * @return integer 
+     */
+    public function getTypeProgression()
+    {
+        return $this->typeProgression;
     }
 }
