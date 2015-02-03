@@ -21,7 +21,9 @@ class HomeController extends Controller
             ->findAllGroupByDate()
         ;
 
-        $aggregatedMeasures = $this->aggregateMeasuresByDate($measures);
+        $aggregator = $this->get('measures.aggregator');
+        
+        $aggregatedMeasures = $aggregator->aggregateMeasuresByDate($measures, $this->get('measures.progression'));
 
         $typeMeasures = $this
         	->getDoctrine()
@@ -71,22 +73,5 @@ class HomeController extends Controller
 				'form' => $form->createView(),
             )
         );
-    }
-    
-    
-    private function aggregateMeasuresByDate(array $measures)
-    {
-    	$aggregatedMeasures = [];
-    	
-        foreach($measures as $measure)
-        {
-        	if($measure instanceof Measure)
-        	{
-        		$aggregatedMeasures[$measure->getDate()->format('d-m-Y')][$measure->getTypeMeasure()->getName()] = $measure;
-        	}
-        }
-        
-        return $aggregatedMeasures;
-        
     }
 }
