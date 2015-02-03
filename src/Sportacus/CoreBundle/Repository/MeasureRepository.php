@@ -3,6 +3,9 @@
 namespace Sportacus\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Sportacus\CoreBundle\Entity\Measure;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Query\Parameter;
 
 class MeasureRepository extends EntityRepository
 {
@@ -16,6 +19,22 @@ class MeasureRepository extends EntityRepository
             ->getQuery()
             ->execute()
         ;
+    }
+    
+    public function findOnePreviousMeasure(Measure $measure)
+    {
+        return $this->createQueryBuilder('m')
+               ->where('m.date < :date')
+               ->andWhere('m.typeMeasure = :typeMeasure')
+               ->setParameters(new ArrayCollection(array(
+                  new Parameter('date', $measure->getDate()->format('Y-m-d')),
+                  new Parameter('typeMeasure', $measure->getTypeMeasure()->getId())
+                )))
+                ->orderBy('m.date', 'DESC')
+                ->setMaxResults(1)
+                ->getQuery()
+                ->getOneOrNullResult()
+               ;
     }
     
     public function findAllOrderByCreatedAt($number = null)
