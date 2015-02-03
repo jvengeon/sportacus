@@ -1,4 +1,4 @@
-<table class="table table-striped table-hover ">
+<table class="table table-striped table-hover">
   <thead>
     <tr>
       <th>Date</th>
@@ -12,7 +12,13 @@
      <tr>
       <td>{{ date }}</td>
       {% for  measureEntity in measure %}
-	      <td>{{ measureEntity.value }}</td>
+        {% set iconArrowThickVar = 'ui-icon-arrowthick-2-e-w' %}
+        {% if measureEntity.progression ==  constant('Sportacus\\CoreBundle\\Measures\\Comparator\\ComparatorInterface::HAS_PROGRESS') %}
+            {% set iconArrowThickVar = 'ui-icon-arrowthick-1-ne' %}
+        {% elseif measureEntity.progression == constant('Sportacus\\CoreBundle\\Measures\\Comparator\\ComparatorInterface::HAS_NO_PROGRESS') %}
+	       {% set iconArrowThickVar = 'ui-icon-arrowthick-1-se' %}
+        {% endif %}
+	      <td><span class="measure-value">{{ measureEntity.value }}</span> <span class="ui-state-highlight ui-icon {{ iconArrowThickVar }} progression-{{ measureEntity.progression  }}"></span></td>
       {% endfor %}
     </tr>
   {% endfor %}
