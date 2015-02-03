@@ -1,0 +1,36 @@
+<?php
+namespace Sportacus\CoreBundle\Measures;
+
+use Sportacus\CoreBundle\Entity\Measure;
+use Doctrine\Common\Persistence\ObjectManager;
+
+
+
+
+class Aggregator
+{
+    private $entityManager;
+    
+    public function __construct(ObjectManager $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+    
+    public function aggregateMeasuresByDate(array $measures, Progression $progressionObject)
+    {
+        $aggregatedMeasures = [];
+         
+        foreach($measures as $measure)
+        {
+            if($measure instanceof Measure) {
+                $progression = $progressionObject->getProgression($measure)
+                                ;
+                $measure->progression = $progression;
+
+                $aggregatedMeasures[$measure->getDate()->format('d/m/Y')][$measure->getTypeMeasure()->getName()] = $measure;
+            }
+        }
+
+        return $aggregatedMeasures;
+    }
+}
