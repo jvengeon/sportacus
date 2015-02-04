@@ -11,18 +11,18 @@ fos_user:
 
 hwi_oauth_connect:
     resource: "@HWIOAuthBundle/Resources/config/routing/connect.xml"
-    prefix:   /demo/secured/connect
+    prefix:   /security/connect
     
 hwi_oauth_redirect:
     resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
-    prefix:   /demo/secured/connect
+    prefix:   /security/connect
  
 hwi_oauth_login:
     resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
-    prefix:   /demo/secured/login
+    prefix:   /security/login
  
 google_login:
-    pattern: /demo/secured/login_google
+    pattern: /security/login_google
  
 logout:
     path:   /logout
