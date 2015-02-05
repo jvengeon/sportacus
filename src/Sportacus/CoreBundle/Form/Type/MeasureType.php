@@ -5,6 +5,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Sportacus\CoreBundle\Entity\TypeMeasure;
+use Sportacus\CoreBundle\Entity\User;
 
 class MeasureType extends AbstractType
 {
@@ -27,9 +28,24 @@ class MeasureType extends AbstractType
 		      'label'    => false
 	    ];
 	    
+	    $paramsUser = [];
+	    $paramsUser = [
+	        'class'    => 'SportacusCoreBundle:User',
+	        'property' => 'username',
+	        'attr'     => array('class' => 'selectUser'),
+	        'label'    => false,
+	        'required' => true,
+	    ];
+	    
 	    if(null !== $options['typeMeasure'] && $options['typeMeasure'] instanceof TypeMeasure){
 	        $paramsTypeMeasure['data'] = $options['typeMeasure'];
 	    }
+	    
+	    if(null !== $options['user'] && $options['user'] instanceof User){
+	        $paramsUser['data'] = $options['user'];
+	    }
+
+	    $builder->add('user', 'entity', $paramsUser);
 	    
 		$builder
 		  ->add('date', 'date', $paramsDate)
@@ -46,8 +62,9 @@ class MeasureType extends AbstractType
 	public function setDefaultOptions(OptionsResolverInterface $resolver)
 	{
 	    $resolver->setDefaults(array(
-	        'data_class' => 'Sportacus\CoreBundle\Entity\Measure',
-	        'typeMeasure' => null
+	        'data_class'  => 'Sportacus\CoreBundle\Entity\Measure',
+	        'typeMeasure' => null,
+	        'user'        => null,
 	    ));
 	}
 }

@@ -7,6 +7,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Sportacus\CoreBundle\Entity\User;
 
 class MeasureCollectionType extends AbstractType
 {
@@ -19,6 +20,7 @@ class MeasureCollectionType extends AbstractType
     
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
+	    $user = null;
 	    $paramsDate = [
 	        'input'       => 'datetime',
 	        'attr'        => array('id' => 'mainDate',  'class' => 'mainDatepicker'),
@@ -34,13 +36,19 @@ class MeasureCollectionType extends AbstractType
 	    
 	    $typeMeasures = $this->getTypeMeasures();
 	    
+	    if(null !== $options['user'] && $options['user'] instanceof User){
+	        $user = $options['user'];
+	    }
+	    
+	    
 	    foreach($typeMeasures as $key => $typeMeasure) {
 	        $builder->add($key, new MeasureType, [
                'typeMeasure' => $typeMeasure,
+	            'user'       => $user,
 	           'label'       => ucfirst($typeMeasure->getName()),
 	        ]);
 	    }
-	    
+	   
 	    $builder->add('submit', 'submit', ['label' => 'Valider']);
 	}
 	
@@ -51,6 +59,13 @@ class MeasureCollectionType extends AbstractType
         	->getRepository('SportacusCoreBundle:TypeMeasure')
         	->findAll()
         ;
+	}
+	
+	public function setDefaultOptions(OptionsResolverInterface $resolver)
+	{
+	    $resolver->setDefaults(array(
+	        'user' => null
+	    ));
 	}
 	
 	public function getName()

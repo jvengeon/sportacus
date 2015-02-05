@@ -6,13 +6,16 @@ use Doctrine\ORM\EntityRepository;
 use Sportacus\CoreBundle\Entity\Measure;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Query\Parameter;
+use Sportacus\CoreBundle\Entity\User;
 
 class MeasureRepository extends EntityRepository
 {
 
-    public function findAllGroupByDate()
+    public function findAllByUserGroupByDate(User $user)
     {
         return $this->createQueryBuilder('m')
+            ->where('m.user = :user')
+            ->setParameter('user', $user)
             ->orderBy('m.date', 'ASC')
             ->addOrderBy('m.typeMeasure')
             ->groupBy('m.date, m.typeMeasure')
@@ -26,9 +29,11 @@ class MeasureRepository extends EntityRepository
         return $this->createQueryBuilder('m')
                ->where('m.date < :date')
                ->andWhere('m.typeMeasure = :typeMeasure')
+               ->andWhere('m.user = :user')
                ->setParameters(new ArrayCollection(array(
                   new Parameter('date', $measure->getDate()->format('Y-m-d')),
-                  new Parameter('typeMeasure', $measure->getTypeMeasure()->getId())
+                  new Parameter('typeMeasure', $measure->getTypeMeasure()->getId()),
+                  new Parameter('user', $measure->getUser()->getId()),
                 )))
                 ->orderBy('m.date', 'DESC')
                 ->setMaxResults(1)

@@ -18,13 +18,13 @@ class HomeController extends Controller
             ->getDoctrine()
             ->getManager()
             ->getRepository('SportacusCoreBundle:Measure')
-            ->findAllGroupByDate()
+            ->findAllByUserGroupByDate($this->getUser())
         ;
-
+        
         $aggregator = $this->get('measures.aggregator');
         
         $aggregatedMeasures = $aggregator->aggregateMeasuresByDate($measures, $this->get('measures.progression'));
-
+        
         $typeMeasures = $this
         	->getDoctrine()
         	->getManager()
@@ -32,7 +32,7 @@ class HomeController extends Controller
         	->findAll()
         ;
 
-        $form = $this->createForm(new MeasureCollectionType($this->getDoctrine()), null, ['attr' => ['id' => 'formMeasures'],  'method' => 'POST']);
+        $form = $this->createForm(new MeasureCollectionType($this->getDoctrine()), null, ['attr' => ['id' => 'formMeasures'],  'method' => 'POST', 'user' => $this->getUser()]);
         $form->handleRequest($request);
 
         $session = $request->getSession();
@@ -40,11 +40,8 @@ class HomeController extends Controller
         
         if($form->isValid())
         {
-            
-            
             $measures = $form->getData();
-            
-            
+
             $em = $this->getDoctrine()->getManager();
             $repository = $em->getRepository('SportacusCoreBundle:Measure');
             
@@ -52,7 +49,8 @@ class HomeController extends Controller
             {
                 if($measure instanceof Measure)
                 {
-                    $existingMeasure = $repository->findOneBy(array('date' => $measure->getDate(), 'typeMeasure' => $measure->getTypeMeasure()));
+                    $existingMeasure = $repository->findOneBy(array('date' => $measure->getDate(), 'typeMeasure' => $measure->getTypeMeasure(), 'user' => $measure->getUser()));
+                    
                     
                     if(null !== $existingMeasure)
                     {

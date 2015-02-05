@@ -38,6 +38,13 @@ class Measure
     protected $typeMeasure;
     
     /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="users")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @Assert\Type(type="Sportacus\CoreBundle\Entity\User")
+     */
+    protected $user;
+    
+    /**
      * Get id
      *
      * @return integer 
@@ -114,5 +121,28 @@ class Measure
     public function getTypeMeasure()
     {
         return $this->typeMeasure;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Sportacus\CoreBundle\Entity\User $user
+     * @return Measure
+     */
+    public function setUser(\Sportacus\CoreBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Sportacus\CoreBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }
