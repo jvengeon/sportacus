@@ -21,7 +21,26 @@ class AppKernel extends Kernel
             new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
         	new FOS\UserBundle\FOSUserBundle(),
         	new Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle(),
+            
+            
+            // Add your dependencies
+            new Sonata\CoreBundle\SonataCoreBundle(),
+            new Sonata\BlockBundle\SonataBlockBundle(),
+            new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+            new Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(),
+            new Sonata\IntlBundle\SonataIntlBundle(),
+            
+            new Knp\Bundle\MarkdownBundle\KnpMarkdownBundle(),
+            new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
+            new Sonata\FormatterBundle\SonataFormatterBundle(),
+            
+            // Then add SonataAdminBundle
+            new Sonata\AdminBundle\SonataAdminBundle(),
+            
         );
+        
+        
+        
         
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
             $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();

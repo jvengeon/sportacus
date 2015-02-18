@@ -5,7 +5,7 @@ imports:
 
 framework:
     #esi:             ~
-    #translator:      { fallback: "%locale%" }
+    translator:      { fallback: "%locale%" }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -107,4 +107,56 @@ hwi_oauth:
         # mapping between resource owners (see below) and properties
         properties:
             google: googleId
-         
+sonata_block:
+    default_contexts: [cms]
+    blocks:
+        # Enable the SonataAdminBundle block
+        sonata.admin.block.admin_list:
+            contexts:   [admin]
+
+sonata_admin:
+    templates:
+        dashboard: SportacusCoreBundle:Admin/Core:dashboard.html.twig
+        list:      SportacusCoreBundle:Admin/CRUD:list.html.twig
+        layout:    SonataAdminBundle::layout.html.twig
+    dashboard:
+        groups:
+            group.content:
+                label: "Contenu"
+sonata_formatter:
+        formatters:
+            markdown:
+                service: sonata.formatter.text.markdown
+                extensions:
+                    - sonata.formatter.twig.control_flow
+                    - sonata.formatter.twig.gist
+            #        - sonata.media.formatter.twig #keep this commented unless you are using media bundle.
+
+
+            text:
+                service: sonata.formatter.text.text
+                extensions:
+                    - sonata.formatter.twig.control_flow
+                    - sonata.formatter.twig.gist
+            #        - sonata.media.formatter.twig
+
+
+            rawhtml:
+                service: sonata.formatter.text.raw
+                extensions:
+                    - sonata.formatter.twig.control_flow
+                    - sonata.formatter.twig.gist
+            #        - sonata.media.formatter.twig
+
+
+            richhtml:
+                service: sonata.formatter.text.raw
+                extensions:
+                    - sonata.formatter.twig.control_flow
+                    - sonata.formatter.twig.gist
+            #        - sonata.media.formatter.twig
+
+
+            twig:
+                service: sonata.formatter.text.twigengine
+                extensions: [] # Twig formatter cannot have extensions            

@@ -1,0 +1,23 @@
+services:
+    sonata.admin.typeMeasure:
+        class: Sportacus\CoreBundle\Admin\TypeMeasureAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "group.content", label: "Type de mesure" }
+        arguments:
+            - ~
+            - Sportacus\CoreBundle\Entity\TypeMeasure
+            - ~
+    sonata.admin.measure:
+        class: Sportacus\CoreBundle\Admin\MeasureAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "group.content", label: "Mesure" }
+        arguments:
+            - ~
+            - Sportacus\CoreBundle\Entity\Measure
+            - 'SonataAdminBundle:CRUD'
+
+    sportacus_core.admin.user:
+        class: Sportacus\CoreBundle\Admin\UserAdmin
+        arguments: [~, Sportacus\CoreBundle\Entity\User, SportacusCoreBundle:UserAdmin]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: "group.content", label: User}
