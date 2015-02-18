@@ -37,9 +37,10 @@ class TypeMeasure
     protected $typeProgression;
 
     /**
-     * @ORM\OneToMany(targetEntity="Measure", mappedBy="mesureType")
+     * @ORM\OneToMany(targetEntity="Measure", mappedBy="typeMeasure")
      */
     protected $mesures;
+    
     
     public function __construct()
     {
