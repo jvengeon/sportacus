@@ -116,8 +116,6 @@ sonata_block:
 
 sonata_admin:
     templates:
-        dashboard: SportacusCoreBundle:Admin/Core:dashboard.html.twig
-        list:      SportacusCoreBundle:Admin/CRUD:list.html.twig
         layout:    SonataAdminBundle::layout.html.twig
     dashboard:
         groups:
