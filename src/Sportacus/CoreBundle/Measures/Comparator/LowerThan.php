@@ -15,4 +15,13 @@ class LowerThan implements ComparatorInterface
         
         return self::HAS_NO_PROGRESS;
     }
+    
+    public function isSuccess(Measure $goal, Measure $newMeasure)
+    {
+        if($newMeasure->getValue() <= $goal->getValue()) {
+            return self::HAS_PROGRESS;
+        }
+        
+        return self::HAS_NO_PROGRESS;
+    }
 }

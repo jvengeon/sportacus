@@ -8,22 +8,49 @@ use Sportacus\CoreBundle\Form\Type\MeasureType;
 use Symfony\Component\HttpFoundation\Request;
 use Sportacus\CoreBundle\Form\Type\MeasureCollectionType;
 use Sportacus\CoreBundle\Entity\TypeMeasure;
+use Sportacus\CoreBundle\Entity\Goal;
 
 class HomeController extends Controller
 {
     public function indexAction(Request $request)
     {
+        $user = $this->getUser();
+        
+        if($user === null)
+        {
+            $user = $this->getDoctrine()->getManager()
+            ->getRepository('SportacusCoreBundle:User')
+            ->find(2)
+            ;
+        }
+        
+        $nextGoals = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('SportacusCoreBundle:Measure')
+            ->findNextGoalsByUser($user)
+        ;
+        
+        $lastGoals = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('SportacusCoreBundle:Measure')
+            ->findLastGoalsByUser($user)
+        ;
+  
         $measure = new Measure();
         $measures = $this
             ->getDoctrine()
             ->getManager()
             ->getRepository('SportacusCoreBundle:Measure')
-            ->findAllByUserGroupByDate($this->getUser())
+            ->findAllByUserGroupByDate($user)
         ;
         
         $aggregator = $this->get('measures.aggregator');
         
         $aggregatedMeasures = $aggregator->aggregateMeasuresByDate($measures, $this->get('measures.progression'));
+        
+        $aggregatedLastGoals = $aggregator->aggregateGoals($lastGoals, $this->get('measures.progression'));
         
         $typeMeasures = $this
         	->getDoctrine()
@@ -32,7 +59,7 @@ class HomeController extends Controller
         	->findAll()
         ;
 
-        $form = $this->createForm(new MeasureCollectionType($this->getDoctrine()), null, ['attr' => ['id' => 'formMeasures'],  'method' => 'POST', 'user' => $this->getUser()]);
+        $form = $this->createForm(new MeasureCollectionType($this->getDoctrine()), null, ['attr' => ['id' => 'formMeasures'],  'method' => 'POST', 'user' => $user]);
         $form->handleRequest($request);
 
         $session = $request->getSession();
@@ -49,7 +76,7 @@ class HomeController extends Controller
             {
                 if($measure instanceof Measure)
                 {
-                    $existingMeasure = $repository->findOneBy(array('date' => $measure->getDate(), 'typeMeasure' => $measure->getTypeMeasure(), 'user' => $measure->getUser()));
+                    $existingMeasure = $repository->findOneBy(array('date' => $measure->getDate(),'isGoal' => 0, 'typeMeasure' => $measure->getTypeMeasure(), 'user' => $measure->getUser()));
                     
                     
                     if(null !== $existingMeasure)
@@ -77,6 +104,8 @@ class HomeController extends Controller
         
         return $this->render('SportacusCoreBundle:Home:index.html.twig', 
     		array(
+    		    'nextGoals' => $nextGoals,
+    		    'lastGoals' => $aggregatedLastGoals,
 				'measures' => $aggregatedMeasures,	
 				'typeMeasures' => $typeMeasures,
 				'form' => $form->createView(),

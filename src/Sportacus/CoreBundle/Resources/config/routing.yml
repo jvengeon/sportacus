@@ -1,3 +1,18 @@
 _homepage:
     path:     /
     defaults: { _controller: SportacusCoreBundle:Home:index }
+_goal_add:
+    path: /goal/add
+    defaults: {_controller: SportacusCoreBundle:Goal:index, id: null }
+_goal_edit:
+    path: /goal/edit/{id}
+    defaults: {_controller: SportacusCoreBundle:Goal:index }
+    requirements:
+        id: \d+
+        _method: GET|POST
+_goal_delete:
+    path: /goal/delete/{id}
+    defaults: {_controller: SportacusCoreBundle:Goal:delete }
+    requirements:
+        id: \d+
+        _method: GET|POST

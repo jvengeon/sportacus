@@ -19,18 +19,6 @@ class TypeMeasureAdmin extends Admin
         ->add('name', null, array('label' => 'Nom', 'help' => 'Nom de la mesure. Ex: poids, masse graisseuse...'))
         ->add('unit', null, array('label' => 'Unité', 'help' => 'Unité de la mesure. Ex: kg, %, etc')) //if no type is specified, SonataAdminBundle tries to guess it
         ->add('typeProgression')
-        ->add('content', 'sonata_formatter_type', array(
-            'event_dispatcher' => $formMapper->getFormBuilder()->getEventDispatcher(),
-            'format_field'   => 'contentFormatter',
-            'source_field'   => 'name',
-            'source_field_options'      => array(
-                'horizontal_input_wrapper_class' => $this->getConfigurationPool()->getOption('form_type') == 'horizontal' ? 'col-lg-12': '',
-                'attr' => array('class' => $this->getConfigurationPool()->getOption('form_type') == 'horizontal' ? 'span10 col-sm-10 col-md-10': '', 'rows' => 20)
-            ),
-            'ckeditor_context'     => 'measure',
-            'target_field'   => 'content',
-            'listener'       => true,
-        ))
         ;
     }
     

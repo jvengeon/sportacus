@@ -33,4 +33,22 @@ class Aggregator
 
         return $aggregatedMeasures;
     }
+    
+    public function aggregateGoals(array $goals, Progression $progressionObject)
+    {
+        $aggregatedGoals = [];
+        
+        foreach($goals as $goal)
+        {
+            if($goal instanceof Measure)
+            {
+                $status = $progressionObject->getGoalStatus($goal);
+                $goal->status = $status;
+                
+                $aggregatedGoals[] = $goal;
+            }
+        }
+        
+        return $aggregatedGoals;
+    }
 }

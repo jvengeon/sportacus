@@ -7,7 +7,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Sportacus\CoreBundle\Entity\TypeMeasure;
 use Sportacus\CoreBundle\Entity\User;
 
-class MeasureType extends AbstractType
+class GoalType extends AbstractType
 {
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
@@ -44,21 +44,14 @@ class MeasureType extends AbstractType
 	    if(null !== $options['user'] && $options['user'] instanceof User){
 	        $paramsUser['data'] = $options['user'];
 	    }
-	    
 
 	    $builder->add('user', 'entity', $paramsUser);
 	    
 		$builder
 		  ->add('date', 'date', $paramsDate)
 		  ->add('typeMeasure', 'entity', $paramsTypeMeasure)
-		  ->add('isGoal', 'hidden', ['data' => $options['isGoal']])
 		  ->add('value', 'number', ['label' => false])
 		;
-
-		if($options['hasSubmit'] === true)
-		{
-		    $builder->add('submit', 'submit', ['label' => 'Valider']);
-		}
 	}
 	
 	public function getName()
@@ -72,8 +65,6 @@ class MeasureType extends AbstractType
 	        'data_class'  => 'Sportacus\CoreBundle\Entity\Measure',
 	        'typeMeasure' => null,
 	        'user'        => null,
-	        'isGoal'      => 0,
-	        'hasSubmit'   => false
 	    ));
 	}
 }

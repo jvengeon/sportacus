@@ -1,4 +1,9 @@
 {% extends "SportacusCoreBundle::layout.html.twig" %}
+
+{% block jumbotronContent %}
+    {% include "SportacusCoreBundle:Home:goals.html.twig" %}
+{% endblock %}
+
 {% block content %}
     <h1>Suivi de vos mesures</h1>
 	{% include "SportacusCoreBundle:Home:measures.html.twig" %}

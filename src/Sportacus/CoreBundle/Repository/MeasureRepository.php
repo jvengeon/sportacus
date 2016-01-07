@@ -15,6 +15,7 @@ class MeasureRepository extends EntityRepository
     {
         return $this->createQueryBuilder('m')
             ->where('m.user = :user')
+            ->andWhere('m.isGoal = 0')
             ->setParameter('user', $user)
             ->orderBy('m.date', 'ASC')
             ->addOrderBy('m.typeMeasure')
@@ -28,6 +29,7 @@ class MeasureRepository extends EntityRepository
     {
         return $this->createQueryBuilder('m')
                ->where('m.date < :date')
+               ->andWhere('m.isGoal = 0')
                ->andWhere('m.typeMeasure = :typeMeasure')
                ->andWhere('m.user = :user')
                ->setParameters(new ArrayCollection(array(
@@ -41,6 +43,60 @@ class MeasureRepository extends EntityRepository
                 ->getOneOrNullResult()
                ;
     }
+    
+    public function findOneNextMeasure(Measure $measure)
+    {
+        return $this->createQueryBuilder('m')
+        ->where('m.date >= :date')
+        ->andWhere('m.isGoal = 0')
+        ->andWhere('m.typeMeasure = :typeMeasure')
+        ->andWhere('m.user = :user')
+        ->setParameters(new ArrayCollection(array(
+            new Parameter('date', $measure->getDate()->format('Y-m-d')),
+            new Parameter('typeMeasure', $measure->getTypeMeasure()->getId()),
+            new Parameter('user', $measure->getUser()->getId()),
+        )))
+        ->orderBy('m.date', 'ASC')
+        ->setMaxResults(1)
+        ->getQuery()
+        ->getOneOrNullResult()
+        ;
+    }
+    
+    public function findNextGoalsByUser(User $user)
+    {
+        $today = new \DateTime();
+        return $this->createQueryBuilder('m')
+        ->where('m.date > :date')
+        ->andWhere('m.isGoal = 1')
+        ->andWhere('m.user = :user')
+        ->setParameters(new ArrayCollection(array(
+            new Parameter('date', $today->format('Y-m-d')),
+            new Parameter('user', $user->getId()),
+        )))
+        ->orderBy('m.date', 'ASC')
+        ->getQuery()
+        ->execute()
+        ;
+    }
+    
+    public function findLastGoalsByUser(User $user)
+    {
+        $today = new \DateTime();
+        return $this->createQueryBuilder('m')
+        ->where('m.date <= :date')
+        ->andWhere('m.isGoal = 1')
+        ->andWhere('m.user = :user')
+        ->setParameters(new ArrayCollection(array(
+            new Parameter('date', $today->format('Y-m-d')),
+            new Parameter('user', $user->getId()),
+        )))
+        ->orderBy('m.date', 'ASC')
+        ->getQuery()
+        ->execute()
+        ;
+    }
+    
     
     public function findAllOrderByCreatedAt($number = null)
     {

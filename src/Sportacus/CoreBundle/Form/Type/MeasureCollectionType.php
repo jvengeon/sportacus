@@ -43,6 +43,7 @@ class MeasureCollectionType extends AbstractType
 	    
 	    foreach($typeMeasures as $key => $typeMeasure) {
 	        $builder->add($key, new MeasureType, [
+	            'isGoal'     => 0,
                'typeMeasure' => $typeMeasure,
 	            'user'       => $user,
 	           'label'       => ucfirst($typeMeasure->getName()),

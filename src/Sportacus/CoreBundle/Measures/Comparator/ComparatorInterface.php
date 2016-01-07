@@ -11,4 +11,5 @@ interface ComparatorInterface
         IS_EQUALS = 2;
     
     public function hasProgress(Measure $previousMeasure, Measure $newMeasure);
+    public function isSuccess(Measure $goal, Measure $newMeasure);
 }

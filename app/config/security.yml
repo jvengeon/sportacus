@@ -35,7 +35,7 @@ security:
         
         # secures part of the application
         secured_area:
-            pattern:    ^/
+            pattern:    ^/admin
             oauth:
                 provider: fos_userbundle
                 resource_owners:
@@ -61,4 +61,4 @@ security:
         - { path: ^/security/connect/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/demo/secured/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin, roles: ROLE_USER }
-        - { path: ^/, roles: ROLE_USER }
+        - { path: ^/test, roles: ROLE_USER }

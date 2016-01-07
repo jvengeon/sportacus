@@ -150,27 +150,4 @@ class Measure
     {
         return $this->user;
     }
-
-    /**
-     * Set isGoal
-     *
-     * @param boolean $isGoal
-     * @return Measure
-     */
-    public function setIsGoal($isGoal)
-    {
-        $this->isGoal = $isGoal;
-
-        return $this;
-    }
-
-    /**
-     * Get isGoal
-     *
-     * @return boolean 
-     */
-    public function getIsGoal()
-    {
-        return $this->isGoal;
-    }
 }
